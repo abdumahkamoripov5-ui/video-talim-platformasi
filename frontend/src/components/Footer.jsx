@@ -1,0 +1,5 @@
+import { Link } from 'react-router-dom';
+import Icon from './Icon';
+export default function Footer() {
+  return <footer className="academy-footer"><div className="container footer-main"><div><Link to="/" className="brand"><span className="brand-symbol"><Icon name="book" size={23} /></span>edu<span>platform</span><i /></Link><p>Bugungi bilimingiz —<br />ertangi imkoniyatingiz.</p></div><div><h4>O‘rganish</h4><Link to="/courses">Barcha kurslar</Link><Link to="/#how-it-works">Qanday ishlaydi?</Link><Link to="/#tariffs">Tariflar</Link></div><div><h4>Shaxsiy kabinet</h4><Link to="/profile">Mening kurslarim</Link><Link to="/wishlist">Sevimli kurslar</Link><Link to="/login">Hisobga kirish</Link></div><div className="footer-promise"><Icon name="globe" size={28} /><h4>Bilim uchun chegara yo‘q.</h4><p>Istalgan joyda.<br />O‘zingizga qulay vaqtda.</p></div></div><div className="container footer-end"><span>© {new Date().getFullYear()} EduPlatform. Barcha huquqlar himoyalangan.</span><span>O‘zbek tilida. Siz uchun.</span></div></footer>;
+}

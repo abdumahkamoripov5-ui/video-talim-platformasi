@@ -1,0 +1,26 @@
+{$API_DOMAIN} {
+    encode zstd gzip
+    handle_path /static/* {
+        root * /srv/static
+        file_server
+    }
+    @private path /media/videos/* /media/lessons/attachments/*
+    handle @private {
+        respond 404
+    }
+    @publicMedia {
+        path_regexp image ^/media/(avatars|courses/thumbnails|lessons/thumbnails)/.*\.(png|jpg|jpeg|webp|gif|avif)$
+    }
+    handle @publicMedia {
+        uri strip_prefix /media
+        root * /srv/media
+        header X-Content-Type-Options nosniff
+        file_server
+    }
+    handle /media/* {
+        respond 404
+    }
+    handle {
+        reverse_proxy api:8000
+    }
+}

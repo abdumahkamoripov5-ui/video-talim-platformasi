@@ -1,0 +1,17 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+media/
+staticfiles/
+frontend/node_modules/
+frontend/dist/
+mobile/node_modules/
+mobile/.expo/
+mobile/dist/
+test-results/
+playwright-report/
+.vercel/
+/release-source.zip
