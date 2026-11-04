@@ -42,3 +42,25 @@ class HealthTests(TestCase):
             response = self.client.get('/api/health/')
         self.assertEqual(response.status_code, 503)
         self.assertNotIn(b'secret-password', response.content)
+
+
+class FrontendRoutingTests(SimpleTestCase):
+    def test_spa_and_api_are_separate(self):
+        from config.frontend import frontend
+        from django.http import Http404
+        factory = RequestFactory()
+        with self.settings(TEMPLATES=[{
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'OPTIONS': {'loaders': [('django.template.loaders.locmem.Loader', {'spa.html': '<div id="root"></div>'})]},
+        }]):
+            self.assertContains(frontend(factory.get('/courses'), 'courses'), 'id="root"')
+            self.assertContains(frontend(factory.get('/'), ''), 'id="root"')
+            for path in ['api/missing/', 'admin/missing/', 'media/missing/', 'static/missing/']:
+                with self.subTest(path=path), self.assertRaises(Http404):
+                    frontend(factory.get('/' + path), path)
+
+    def test_public_assets_are_allowlisted(self):
+        from config.frontend import public_asset
+        from django.http import Http404
+        with self.assertRaises(Http404):
+            public_asset(RequestFactory().get('/'), '../../.env')

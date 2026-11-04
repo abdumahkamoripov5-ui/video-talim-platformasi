@@ -1,4 +1,4 @@
-# Vercel: frontend va Django API
+# Vercel: bitta Django loyiha va React frontend
 
 Bu rejim login, ro‘yxatdan o‘tish, kurslar, testlar, progress va admin panelni
 ishga tushirish uchun. PostgreSQL tashqi xizmatda turadi. Fayllar, video yuklash,
@@ -19,16 +19,13 @@ Bepul tarif limiti va shartlarini hisob ochish paytida tekshiring.
 ## 2. Vercel loyihasini sozlash
 
 Mavjud `video-talim-platformasi` loyihasi -> Settings -> Build and Deployment:
-Root Directory ni `frontend` dan loyiha ildiziga (`./`) o‘zgartiring.
-Frontend-only build/output/install override sozlamalarini o‘chiring; ildizdagi
-`vercel.json` har bir xizmatni alohida sozlaydi. Services aniqlansa shu rejimni tanlang.
-Frontend uchun Node.js 22.x ishlating.
-
-Xizmatlar: `backend` (Django, ildiz papka) va `frontend` (Vite, frontend papka).
-`/api/*`, `/admin/*`, `/static/*`, `/media/*` backendga; qolgan yo‘llar frontendga boradi.
-Frontend SPA ichidagi sahifalarni o‘zining `frontend/vercel.json` fayli boshqaradi.
-Brauzer `/api` orqali murojaat qiladi. Serverdan boshqa xizmatga ichki so‘rov yo‘q,
-shuning uchun service binding qo‘shilmagan. `/media` hozir fayl saqlashni ta’minlamaydi.
+Root Directory ni loyiha ildiziga (`./`) qo‘ying.
+Framework Preset: **Django**. Oldingi frontend-only install/output override
+sozlamalarini o‘chiring. Build Command `python scripts/vercel_build.py`.
+Node.js Version **22.x**. Frontend `npm ci` va Vite orqali build vaqtida yig‘iladi,
+keyin Django collectstatic orqali `/static/` dan tarqatiladi. Django React
+sahifalarini ham beradi; API `/api/`, admin `/admin/` da ishlaydi.
+Services va ichki bindings ishlatilmaydi. `/api/health/` JSON qaytarishi kerak.
 
 ## 3. Environment Variables
 

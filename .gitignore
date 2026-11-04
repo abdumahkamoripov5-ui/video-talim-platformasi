@@ -19,3 +19,5 @@ playwright-report/
 .env.*
 !.env.example
 !*.env.example
+
+/templates/spa.html

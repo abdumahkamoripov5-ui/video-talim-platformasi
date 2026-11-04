@@ -24,3 +24,10 @@ urlpatterns = [
 ]
 if settings.DEBUG:
     urlpatterns += [re_path(r'^media/(?P<path>.*)$', public_media)]
+
+if settings.IS_VERCEL:
+    from config.frontend import frontend, public_asset
+    urlpatterns += [
+        re_path(r'^(?P<filename>manifest\.json|sw\.js|icon-192\.svg|icon-512\.svg)$', public_asset),
+        re_path(r'^(?P<path>.*)$', frontend),
+    ]

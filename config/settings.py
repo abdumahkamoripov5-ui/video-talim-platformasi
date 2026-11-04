@@ -221,3 +221,7 @@ if IS_VERCEL:
     MIDDLEWARE.insert(1, 'config.middleware.VercelUploadGuard')
     # No Redis connection or synchronous FFmpeg work during HTTP requests.
     CELERY_TASK_ALWAYS_EAGER = False
+
+# A single Django deployment owns public routing; Vercel serves collected assets.
+if IS_VERCEL:
+    STATICFILES_DIRS = [BASE_DIR / 'frontend' / 'dist']
