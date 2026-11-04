@@ -9,7 +9,25 @@ from payments.models import Payment
 from users.models import User
 
 
-@override_settings(PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'])
+@override_settings(ADMIN_REQUIRE_LOGIN=False)
+class TemporaryAdminAccessTests(TestCase):
+    def test_admin_opens_without_credentials_and_can_manage_courses(self):
+        self.assertEqual(self.client.get('/admin/').status_code, 200)
+        self.assertEqual(self.client.get('/admin/courses/course/add/').status_code, 200)
+        self.assertFalse(User.objects.get(email='temporary-admin@platform.invalid').has_usable_password())
+
+    def test_admin_access_does_not_authenticate_api_or_session(self):
+        self.client.get('/admin/')
+        self.assertNotIn('_auth_user_id', self.client.session)
+        self.assertIn(self.client.get('/api/users/profile/').status_code, [401, 403])
+
+    def test_login_can_be_required_again(self):
+        self.client.get('/admin/')
+        with override_settings(ADMIN_REQUIRE_LOGIN=True):
+            self.assertEqual(self.client.get('/admin/').status_code, 302)
+
+
+@override_settings(ADMIN_REQUIRE_LOGIN=True, PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'])
 class AdminWorkspaceTests(TestCase):
     password = 'Forest!learning-7294'
 
