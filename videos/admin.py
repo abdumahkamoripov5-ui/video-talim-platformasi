@@ -1,4 +1,5 @@
-from django.contrib import admin
+from django.conf import settings
+from django.contrib import admin, messages
 from django.db import transaction
 from .models import Video
 from .tasks import convert_video
@@ -21,6 +22,9 @@ class VideoAdmin(admin.ModelAdmin):
 
     @admin.action(description='Videoni qayta konvertatsiya qilish')
     def retry_conversion(self, request, queryset):
+        if getattr(settings, 'IS_VERCEL', False):
+            self.message_user(request, 'Video qayta ishlash xizmati hali ulanmagan.', level=messages.ERROR)
+            return
         for video in queryset.exclude(status='processing'):
             if video.original_file:
                 video.status = 'processing'

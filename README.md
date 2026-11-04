@@ -1,7 +1,9 @@
 # EduPlatform — Video Ta’lim Platformasi
 
-React + Django asosidagi obunali ta’lim platformasi. Veb sayt Vercelga,
-backend esa PostgreSQL, Redis/Celery, FFmpeg va doimiy fayl diskiga ega serverga joylanadi.
+React + Django asosidagi obunali ta’lim platformasi. Frontend va Django API Vercel
+Services orqali birga ishlaydi: [qadam-baqadam yo‘riqnoma](VERCEL_DEPLOYMENT.md).
+Video yuklash va HLS konvertatsiyasi uchun alohida doimiy diskli worker kerak;
+Vercel rejimida bu xizmat ulanmaguncha fayl yuklash o‘chirilgan.
 
 ## Ishga tushirish
 

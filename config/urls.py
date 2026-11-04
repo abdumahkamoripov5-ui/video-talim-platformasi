@@ -1,3 +1,4 @@
+from config.health import health
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -8,6 +9,7 @@ from django.urls import re_path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
+    path('api/health/', health, name='health'),
     path('admin/dashboard/', dashboard_view, name='dashboard'),
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

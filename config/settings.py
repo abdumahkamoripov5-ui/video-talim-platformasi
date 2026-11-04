@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
@@ -5,7 +6,8 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production')
-DEBUG = config('DEBUG', default=True, cast=bool)
+IS_VERCEL = os.environ.get('VERCEL') == '1'
+DEBUG = config('DEBUG', default=not IS_VERCEL, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
 INSTALLED_APPS = [
@@ -193,3 +195,29 @@ MAX_VIDEO_UPLOAD_BYTES = config('MAX_VIDEO_UPLOAD_BYTES', default=5 * 1024**3, c
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 if config('TRUST_PROXY', default=False, cast=bool):
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Vercel uses stateless functions; persistent data must live in PostgreSQL.
+from config.database import database_from_url
+
+DATABASE_URL = config('DATABASE_URL', default='')
+if DATABASE_URL:
+    DATABASES['default'] = database_from_url(DATABASE_URL)
+
+if IS_VERCEL:
+    if DEBUG:
+        raise ValueError('Vercelda DEBUG=False bo‘lishi kerak')
+    if not DATABASE_URL:
+        raise ValueError('Vercel uchun PostgreSQL DATABASE_URL majburiy')
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # Only trust this project’s domains, including its current preview URL.
+    for variable in ('VERCEL_URL', 'VERCEL_PROJECT_PRODUCTION_URL'):
+        host = os.environ.get(variable, '').strip()
+        if host and host not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS.append(host)
+        if host and 'https://' + host not in CSRF_TRUSTED_ORIGINS:
+            CSRF_TRUSTED_ORIGINS.append('https://' + host)
+    FILE_UPLOAD_TEMP_DIR = '/tmp'
+    MEDIA_ROOT = Path('/tmp/edu-media')
+    MIDDLEWARE.insert(1, 'config.middleware.VercelUploadGuard')
+    # No Redis connection or synchronous FFmpeg work during HTTP requests.
+    CELERY_TASK_ALWAYS_EAGER = False

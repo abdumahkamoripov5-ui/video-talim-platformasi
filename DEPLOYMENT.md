@@ -1,3 +1,7 @@
+> Frontend va Django backendni Vercelga birga joylash uchun yangi
+> [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md) yo‘riqnomasidan foydalaning.
+> Quyida doimiy diskli server va alohida frontend uchun muqobil yo‘l keltirilgan.
+
 # GitHub → Vercel: qadam-baqadam
 
 Bu repozitoriy ikki qismdan iborat: `frontend/` — Vercel uchun React sayt;
