@@ -2,8 +2,9 @@
 
 React + Django asosidagi obunali ta’lim platformasi. Frontend va Django API Vercelda
 bitta Django loyiha orqali birga ishlaydi: [qadam-baqadam yo‘riqnoma](VERCEL_DEPLOYMENT.md).
-Video yuklash va HLS konvertatsiyasi uchun alohida doimiy diskli worker kerak;
-Vercel rejimida bu xizmat ulanmaguncha fayl yuklash o‘chirilgan.
+Video, rasm va materiallar private S3-compatible bucketga bevosita yuklanadi:
+[saqlash xizmatini ulash](OBJECT_STORAGE.md). MP4 konvertatsiyasiz ijro etiladi;
+HLS sifatlariga avtomatik konvertatsiya uchun alohida worker kerak.
 
 ## Ishga tushirish
 

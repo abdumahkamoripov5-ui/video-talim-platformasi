@@ -65,6 +65,13 @@ def attachment(request, attachment_id):
         raise Http404
     if not obj.lesson.is_free_preview and not request.user.has_active_subscription:
         return Response({'detail': 'Obuna kerak'}, status=403)
+    if settings.OBJECT_STORAGE_ENABLED and obj.file:
+        from django.http import HttpResponseRedirect
+        from videos.object_storage import signed_download
+        url = signed_download(obj.file.name, Path(obj.file.name).name)
+        response = Response({'download_url': url}) if request.query_params.get('download_url') == '1' else HttpResponseRedirect(url)
+        response['Cache-Control'] = 'private, no-store'
+        return response
     if not obj.file or not Path(obj.file.path).is_file():
         raise Http404
     return FileResponse(obj.file.open('rb'), as_attachment=True, filename=Path(obj.file.name).name)

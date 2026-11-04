@@ -225,3 +225,20 @@ if IS_VERCEL:
 # A single Django deployment owns public routing; Vercel serves collected assets.
 if IS_VERCEL:
     STATICFILES_DIRS = [BASE_DIR / 'frontend' / 'dist']
+
+# Enable only after a private bucket and its server-side credentials are configured.
+OBJECT_STORAGE_ENABLED = config('OBJECT_STORAGE_ENABLED', default=False, cast=bool)
+AWS_ENDPOINT_URL_S3 = config('AWS_ENDPOINT_URL_S3', default='')
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
+AWS_REGION = config('AWS_REGION', default='us-east-2')
+MEDIA_BUCKET = config('MEDIA_BUCKET', default='edu-media')
+DIRECT_VIDEO_MAX_BYTES = config('DIRECT_VIDEO_MAX_BYTES', default=1024**3, cast=int)
+DIRECT_ATTACHMENT_MAX_BYTES = config('DIRECT_ATTACHMENT_MAX_BYTES', default=100 * 1024**2, cast=int)
+if OBJECT_STORAGE_ENABLED:
+    if not all((AWS_ENDPOINT_URL_S3.startswith('https://'), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, MEDIA_BUCKET)):
+        raise ValueError('Object storage endpoint, bucket and credentials are required')
+    STORAGES = {
+        'default': {'BACKEND': 'videos.object_storage.PrivateObjectStorage'},
+        'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+    }

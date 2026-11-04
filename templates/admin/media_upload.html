@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block content %}
+<div class="module aligned">
+  {% if not enabled %}<p class="errornote">Neon Object Storage hali ulanmagan. Saqlash sozlamalarini kiriting.</p>{% endif %}
+  <p>Avval kurs va dars yarating. Video uchun brauzerda ochiladigan MP4 (H.264/AAC) fayl tanlang.</p>
+  <p>Video: 1 GB gacha; material: 100 MB gacha; rasm: 2 MB gacha. Yuklash tugamaguncha sahifani yopmang.</p>
+  <form id="media-upload-form">
+    {% csrf_token %}
+    {% if enabled and user.is_superuser %}<p><button type="button" id="configure-storage">Saqlash ulanishini tekshirish va sozlash</button></p>{% endif %}
+    <div class="form-row"><label for="kind">Yuklash turi:</label>
+      <select id="kind" name="kind"><option value="video">Dars videosi (MP4)</option><option value="attachment">Dars materiali (PDF, Word, TXT, ZIP)</option><option value="thumbnail">Kurs rasmi (JPG, PNG, WebP)</option></select>
+    </div>
+    <div class="form-row" id="lesson-row"><label for="lesson">Dars:</label><select id="lesson">
+      <option value="">Dars tanlang</option>{% for lesson in lessons %}<option value="{{ lesson.pk }}">{{ lesson.course.title }} — {{ lesson.title }}</option>{% endfor %}
+    </select></div>
+    <div class="form-row" id="course-row" hidden><label for="course">Kurs:</label><select id="course">
+      <option value="">Kurs tanlang</option>{% for course in courses %}<option value="{{ course.pk }}">{{ course.title }}</option>{% endfor %}
+    </select></div>
+    <div class="form-row"><label for="title">Material nomi (ixtiyoriy):</label><input id="title" maxlength="255"></div>
+    <div class="form-row"><label for="file">Fayl:</label><input id="file" type="file" required accept="video/mp4"></div>
+    <div class="submit-row"><button type="submit" id="upload-button" {% if not enabled %}disabled{% endif %}>Yuklash</button></div>
+  </form>
+  <progress id="upload-progress" max="100" value="0" hidden style="width:100%"></progress>
+  <p id="upload-status" role="status" aria-live="polite"></p>
+</div>
+<script src="{% static 'admin/media_upload.js' %}" defer></script>
+{% endblock %}

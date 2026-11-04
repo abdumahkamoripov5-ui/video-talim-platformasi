@@ -34,7 +34,11 @@ export default function VideoPlayer({ lessonId, watermarkId, resumeAt = 0, initi
     setLoading(true);
     const resume = () => { video.currentTime = Math.min(positionRef.current || data.resume_at || 0, Number.isFinite(video.duration) ? video.duration : Infinity); setLoading(false); };
     video.addEventListener('loadedmetadata', resume, { once: true });
-    if (Hls.isSupported()) {
+    setQualities([]);
+    setQuality('-1');
+    if (data.format === 'mp4') {
+      video.src = mediaUrl(data.url);
+    } else if (Hls.isSupported()) {
       const hls = new Hls({ xhrSetup: xhr => { xhr.withCredentials = true; } });
       hlsRef.current = hls;
       hls.loadSource(mediaUrl(data.url)); hls.attachMedia(video);
@@ -63,7 +67,7 @@ export default function VideoPlayer({ lessonId, watermarkId, resumeAt = 0, initi
   }, [lessonId]);
   useEffect(() => { const timer = setInterval(() => setPos({ x: 5 + Math.random()*60, y: 5 + Math.random()*65 }), 7000); return () => clearInterval(timer); }, []);
   return <div><div className="player-shell" ref={shellRef} onContextMenu={e => e.preventDefault()}>
-    <video ref={videoRef} controls controlsList="nodownload noremoteplayback nofullscreen" disablePictureInPicture disableRemotePlayback playsInline crossOrigin="use-credentials" poster={mediaUrl(poster)} onWaiting={() => setLoading(true)} onPlaying={() => setLoading(false)} onCanPlay={() => setLoading(false)} onError={() => { setLoading(false); setError('Video ochilmadi. Qayta urinib ko‘ring.'); }} />
+    <video ref={videoRef} controls controlsList="nodownload noremoteplayback nofullscreen" disablePictureInPicture disableRemotePlayback playsInline crossOrigin={data?.format === 'mp4' ? 'anonymous' : 'use-credentials'} poster={mediaUrl(poster)} onWaiting={() => setLoading(true)} onPlaying={() => setLoading(false)} onCanPlay={() => setLoading(false)} onError={() => { setLoading(false); setError('Video ochilmadi. Qayta urinib ko‘ring.'); }} />
     {loading && !error && <div className="player-loading">Video tayyorlanmoqda…</div>}
     {error && <div className="player-error" role="alert"><span>{error}</span><button className="btn-outline" onClick={() => { setError(''); setRetry(r => r+1); }}>Qayta urinish</button></div>}
     {(data?.watermark_id || watermarkId) && <span className="player-watermark" style={{ left: `${pos.x}%`, top: `${pos.y}%` }}>ID: {data?.watermark_id || watermarkId}</span>}

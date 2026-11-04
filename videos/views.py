@@ -15,6 +15,8 @@ class VideoUploadView(APIView):
     permission_classes = [permissions.IsAdminUser]
 
     def post(self, request, lesson_id):
+        if settings.OBJECT_STORAGE_ENABLED or settings.IS_VERCEL:
+            return Response({'detail': 'Video uchun /admin/media-upload/ sahifasidan foydalaning'}, status=503)
         try:
             lesson = Lesson.objects.get(id=lesson_id)
         except Lesson.DoesNotExist:
@@ -93,6 +95,7 @@ def _convert_to_hls(video, input_path, lesson_id):
         video.error_message = ''
         video.hls_path = f"videos/hls/{lesson_id}"
         video.status = 'ready'
+        video.playback_format = 'hls'
 
         # Duration olish
         try:

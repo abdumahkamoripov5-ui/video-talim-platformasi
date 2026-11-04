@@ -10,6 +10,6 @@ class VercelUploadGuard:
     def __call__(self, request):
         if request.method in {'POST', 'PUT', 'PATCH'} and request.FILES:
             return JsonResponse({
-                'detail': 'Fayl yuklash hali ulanmagan. Doimiy fayl saqlash va video qayta ishlash xizmatini sozlang.'
+                'detail': 'Faylni admin paneldagi “Video va fayl yuklash” sahifasidan yuklang: /admin/media-upload/'
             }, status=503)
         return self.get_response(request)

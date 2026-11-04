@@ -171,15 +171,24 @@ def get_video_url(request, lesson_id):
     token = create_stream_token(lesson_id, user.pk, request.auth['device'])
     video_url = f'/api/videos/stream/{lesson_id}/master.m3u8?token={token}'
 
+    playback_format = lesson.video.playback_format
+    if playback_format == 'mp4':
+        if not settings.OBJECT_STORAGE_ENABLED or not lesson.video.original_file:
+            return Response({'detail': 'Video saqlash xizmati ulanmagan'}, status=503)
+        from videos.object_storage import signed_download
+        video_url = signed_download(lesson.video.original_file.name)
+
     progress = user.progresses.filter(lesson=lesson).first()
 
     response = Response({
         'url': video_url,
+        'format': playback_format,
         'resume_at': progress.watched_seconds if progress else 0,
         'watermark_id': user.display_id,
         'token': token,
         'expires_in': settings.SIGNED_URL_EXPIRY,
     })
+    response['Cache-Control'] = 'private, no-store'
     response.set_signed_cookie('stream_device', str(request.auth['device']), salt='stream-device',
         max_age=604800, httponly=True, secure=not settings.DEBUG, samesite='Lax', path='/api/videos/')
     return response

@@ -51,7 +51,17 @@ api.interceptors.response.use(response => {
   }
 });
 export async function downloadFile(path, filename) {
-  const response = await api.get(path.replace(/^\/api/, ''), { responseType: 'blob' });
+  const response = await api.get(path.replace(/^\/api/, ''), { responseType: 'blob', params: { download_url: '1' } });
+  if (response.data.type.includes('application/json')) {
+    const result = JSON.parse(await response.data.text());
+    if (!result.download_url) throw new Error('Fayl havolasi olinmadi');
+    // Navigate to the signed attachment without sending API tokens or cookies.
+    const link = document.createElement('a');
+    link.href = result.download_url; link.download = filename;
+    link.referrerPolicy = 'no-referrer';
+    link.click();
+    return;
+  }
   const url = URL.createObjectURL(response.data);
   const link = document.createElement('a');
   link.href = url; link.download = filename;

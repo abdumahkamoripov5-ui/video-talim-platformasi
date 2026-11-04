@@ -1,0 +1,5 @@
+{% extends "admin/index.html" %}
+{% block content %}
+<div class="module"><h2>Kontent yuklash</h2><p><a href="{% url 'media-upload' %}">Video, dars materiali yoki kurs rasmini yuklash</a></p></div>
+{{ block.super }}
+{% endblock %}

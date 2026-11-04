@@ -1,3 +1,4 @@
+from videos import direct_upload
 from config.health import health
 from django.contrib import admin
 from django.urls import path, include
@@ -10,6 +11,10 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path('api/health/', health, name='health'),
+    path('admin/media-upload/', admin.site.admin_view(direct_upload.upload_page), name='media-upload'),
+    path('admin/media-upload/start/', admin.site.admin_view(direct_upload.initiate)),
+    path('admin/media-upload/configure/', admin.site.admin_view(direct_upload.configure_storage)),
+    path('admin/media-upload/<uuid:upload_id>/complete/', admin.site.admin_view(direct_upload.complete)),
     path('admin/dashboard/', dashboard_view, name='dashboard'),
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

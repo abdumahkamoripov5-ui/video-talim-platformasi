@@ -19,7 +19,7 @@ class Course(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    thumbnail = models.ImageField(upload_to='courses/thumbnails/')
+    thumbnail = models.ImageField(upload_to='courses/thumbnails/', blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='courses')
     instructor = models.CharField(max_length=150)
     is_published = models.BooleanField(default=False)

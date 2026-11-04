@@ -1,12 +1,10 @@
 # Vercel: bitta Django loyiha va React frontend
 
 Bu rejim login, ro‘yxatdan o‘tish, kurslar, testlar, progress va admin panelni
-ishga tushirish uchun. PostgreSQL tashqi xizmatda turadi. Fayllar, video yuklash,
-HLS va FFmpeg worker hali ulanmagan: faylli so‘rovlar 503 bilan aniq xabar qaytaradi.
-Faylsiz kurs va darslarni boshqarish mumkin (majburiy thumbnail talab qiladigan
-kurs yaratish uchun keyinchalik doimiy fayl saqlashni ulash kerak).
-Video worker va private storage ulanishi alohida bosqich; vaqtinchalik diskdagi
-videolarni production yechim deb hisoblamang. To‘lov merchant kalitlari ham alohida.
+ishga tushiradi. PostgreSQL tashqi xizmatda turadi. Video, rasm va dars materiallarini
+Neon Object Storage ga ulash: [OBJECT_STORAGE.md](OBJECT_STORAGE.md).
+MP4 videolar konvertatsiyasiz ishlaydi. HLS/FFmpeg uchun alohida worker kerak.
+To‘lov merchant kalitlari ham alohida sozlanadi.
 
 ## 1. PostgreSQL yaratish
 

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.utils.html import format_html
 from videos.models import Video
@@ -50,12 +51,18 @@ class LessonAdmin(admin.ModelAdmin):
     search_fields = ('title', 'course__title')
     inlines = [LessonAttachmentInline, VideoInline]
 
+    def get_inlines(self, request, obj):
+        if settings.IS_VERCEL or settings.OBJECT_STORAGE_ENABLED:
+            return [LessonAttachmentInline]
+        return super().get_inlines(request, obj)
+
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
         for deleted in formset.deleted_objects:
             deleted.delete()
         for obj in instances:
-            is_video = isinstance(obj, Video) and obj.original_file
+            is_video = (isinstance(obj, Video) and obj.original_file
+                        and obj.playback_format == 'hls' and not (settings.IS_VERCEL or settings.OBJECT_STORAGE_ENABLED))
             if is_video:
                 obj.status = 'processing'
             obj.save()
