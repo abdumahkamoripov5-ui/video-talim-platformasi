@@ -1,160 +1,31 @@
 {% extends "admin/base_site.html" %}
 {% load humanize %}
-
-{% block title %}Statistika — {{ site_title }}{% endblock %}
-
-{% block extrastyle %}
-<style>
-  .dash { padding: 20px; }
-  .dash h1 { margin-bottom: 24px; color: #2c3e50; }
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
-  .stat-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,.08); border-left: 4px solid #4F46E5; }
-  .stat-card.green { border-color: #10B981; }
-  .stat-card.orange { border-color: #F59E0B; }
-  .stat-card.red { border-color: #EF4444; }
-  .stat-card .label { font-size: 13px; color: #6B7280; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
-  .stat-card .value { font-size: 28px; font-weight: 700; color: #1F2937; }
-  .stat-card .sub { font-size: 12px; color: #9CA3AF; margin-top: 4px; }
-  .dash-section { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,.08); }
-  .dash-section h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #f3f4f6; }
-  .dash-table { width: 100%; border-collapse: collapse; }
-  .dash-table th { text-align: left; padding: 8px 12px; background: #f9fafb; color: #6B7280; font-size: 12px; text-transform: uppercase; font-weight: 600; }
-  .dash-table td { padding: 10px 12px; border-bottom: 1px solid #f3f4f6; font-size: 14px; }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .badge.paid { background: #D1FAE5; color: #065F46; }
-  .badge.pending { background: #FEF3C7; color: #92400E; }
-  .badge.failed { background: #FEE2E2; color: #991B1B; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
-</style>
-{% endblock %}
-
+{% block bodyclass %}{{ block.super }} edu-dashboard{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block content_title %}{% endblock %}
+{% block nav-sidebar %}{% endblock %}
 {% block content %}
-<div class="dash">
-  <h1>📊 Statistika</h1>
-
-  <!-- Foydalanuvchilar -->
-  <div class="dash-grid">
-    <div class="stat-card">
-      <div class="label">Jami foydalanuvchilar</div>
-      <div class="value">{{ total_users|intcomma }}</div>
-      <div class="sub">Bugun: +{{ new_users_today }} • Bu oy: +{{ new_users_month }}</div>
-    </div>
-    <div class="stat-card green">
-      <div class="label">Faol obunalar</div>
-      <div class="value">{{ active_subs|intcomma }}</div>
-      <div class="sub">{{ expiring_soon }} ta — 3 kun ichida tugaydi</div>
-    </div>
-    <div class="stat-card green">
-      <div class="label">Kunlik tushum</div>
-      <div class="value">{{ revenue_today|floatformat:0|intcomma }}</div>
-      <div class="sub">so'm</div>
-    </div>
-    <div class="stat-card green">
-      <div class="label">Oylik tushum</div>
-      <div class="value">{{ revenue_month|floatformat:0|intcomma }}</div>
-      <div class="sub">so'm</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Jami tushum</div>
-      <div class="value">{{ revenue_total|floatformat:0|intcomma }}</div>
-      <div class="sub">so'm</div>
-    </div>
-    <div class="stat-card orange">
-      <div class="label">Kutilayotgan to'lov</div>
-      <div class="value">{{ pending_payments }}</div>
-      <div class="sub">tasdiq kutmoqda</div>
-    </div>
+<div class="edu-dashboard-wrap">
+  <header class="edu-page-heading"><div><span class="edu-eyebrow"><i></i> PLATFORMA BOSHQARUVI</span><h1>Xush kelibsiz, {{ request.user.full_name|default:"Admin" }}.</h1><p>Ta’lim, o‘quvchilar va natijalar — barchasi bir joyda.</p></div><div class="edu-heading-actions"><span class="edu-date">{{ today|date:"d.m.Y" }}</span><a class="edu-button" href="{% url 'media-upload' %}">↑ Fayl yuklash</a></div></header>
+  <section class="edu-hero"><div><span class="edu-eyebrow">BILIMGA YO‘L OCHING</span><h2>Keyingi katta natija<br>yangi darsdan boshlanadi.</h2><p>Kurslaringizni boyiting, o‘quvchilar o‘sishini kuzating<br>va ta’lim jarayonini boshqaring.</p>{% if perms.courses.add_course %}<a class="edu-button" href="{% url 'admin:courses_course_add' %}">Yangi kurs yaratish <span>↗</span></a>{% endif %}</div><div class="edu-hero-art" aria-hidden="true"><span class="edu-orbit orbit-one"></span><span class="edu-orbit orbit-two"></span><div class="edu-art-card"><span>EDUPLATFORM / ADMIN</span><strong>Bilim.<br>O‘sish.<br>Natija<span>↗</span></strong><div class="edu-mini-bars"><i></i><i></i><i></i><i></i><i></i></div></div><span class="edu-art-tag">✦ Har kuni bir qadam oldinga</span></div></section>
+  <div class="edu-section-heading"><h2>Platforma raqamlarda</h2><form method="get" class="edu-period"><label for="period">Davr</label><select id="period" name="period"><option value="7" {% if period == '7' %}selected{% endif %}>Oxirgi 7 kun</option><option value="30" {% if period == '30' %}selected{% endif %}>Oxirgi 30 kun</option><option value="90" {% if period == '90' %}selected{% endif %}>Oxirgi 90 kun</option></select><button type="submit">Ko‘rsatish</button></form></div>
+  <div class="edu-stats">
+    {% if can_users %}<a class="edu-stat" href="{% url 'admin:users_user_changelist' %}"><span class="edu-stat-icon">♙</span><span>Jami foydalanuvchilar</span><strong>{{ total_users|intcomma }}</strong><small>+{{ new_users|intcomma }} ta / {{ days }} kun</small></a><a class="edu-stat" href="{% url 'admin:users_user_changelist' %}"><span class="edu-stat-icon">✓</span><span>Faol obunalar</span><strong>{{ active_subs|intcomma }}</strong><small>{{ expiring_soon }} tasi 3 kunda tugaydi</small></a>{% endif %}
+    {% if can_payments %}<a class="edu-stat" href="{% url 'admin:payments_payment_changelist' %}?status__exact=paid"><span class="edu-stat-icon">↗</span><span>{{ days }} kunlik tushum</span><strong>{{ revenue_period|floatformat:0|intcomma }} <em>so‘m</em></strong><small>Faqat to‘langan buyurtmalar</small></a>{% endif %}
+    {% if can_courses %}<a class="edu-stat" href="{% url 'admin:courses_course_changelist' %}"><span class="edu-stat-icon">▤</span><span>Jami kurslar</span><strong>{{ total_courses|intcomma }}</strong><small>{{ published_courses }} ta nashrda · {{ draft_courses }} ta qoralama</small></a>{% endif %}
   </div>
-
-  <!-- Kontent -->
-  <div class="dash-grid">
-    <div class="stat-card">
-      <div class="label">Kurslar</div>
-      <div class="value">{{ total_courses }}</div>
-      <div class="sub">{{ published_courses }} ta nashr etilgan</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Darslar</div>
-      <div class="value">{{ total_lessons }}</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Yozilishlar</div>
-      <div class="value">{{ total_enrollments }}</div>
-    </div>
+  <div class="edu-main-grid">
+    {% if can_users or can_payments %}<section class="edu-panel edu-chart-panel"><div class="edu-panel-heading"><div><span class="edu-eyebrow">KUNLIK DINAMIKA</span><h2>O‘sishni kuzating</h2></div><div class="edu-tabs" role="group" aria-label="Grafik turi">{% if can_users %}<button type="button" data-chart-metric="users" aria-pressed="true">O‘quvchilar</button>{% endif %}{% if can_payments %}<button type="button" data-chart-metric="revenue" aria-pressed="false">Tushum</button>{% endif %}</div></div><strong id="edu-chart-summary" class="edu-chart-total"></strong><div id="edu-chart" class="edu-chart" role="group" aria-label="Kunlik statistika"></div><div class="edu-chart-axis"><span>{{ chart_data.0.label }}</span><span>{{ days }} kun</span><span>{{ chart_end }}</span></div><p id="edu-chart-detail" class="edu-chart-detail" aria-live="polite"></p><noscript><p>Interaktiv grafik uchun JavaScript’ni yoqing. Asosiy raqamlar yuqorida ko‘rsatilgan.</p></noscript></section>{% endif %}
+    <section class="edu-panel edu-quick"><span class="edu-eyebrow">ISHNI DAVOM ETTIRING</span><h2>Tezkor amallar</h2>{% if perms.courses.add_course %}<a href="{% url 'admin:courses_course_add' %}"><span>＋</span><div><strong>Kurs yaratish</strong><small>Yangi ta’lim yo‘nalishini boshlang</small></div>↗</a>{% endif %}{% if perms.courses.add_lesson %}<a href="{% url 'admin:courses_lesson_add' %}"><span>▷</span><div><strong>Dars qo‘shish</strong><small>Kurs mazmunini boyiting</small></div>↗</a>{% endif %}<a href="{% url 'media-upload' %}"><span>↑</span><div><strong>Video va materiallar</strong><small>Fayllarni darslarga biriktiring</small></div>↗</a><a href="{% url 'admin:account' %}"><span>⚙</span><div><strong>Login va parol</strong><small>Akkauntingizni boshqaring</small></div>↗</a></section>
   </div>
-
-  <div class="grid-2">
-    <!-- Top kurslar -->
-    <div class="dash-section">
-      <h2>🏆 Mashhur kurslar</h2>
-      <table class="dash-table">
-        <thead>
-          <tr><th>Kurs</th><th>O'quvchilar</th></tr>
-        </thead>
-        <tbody>
-        {% for c in top_courses %}
-          <tr>
-            <td>{{ c.title }}</td>
-            <td>{{ c.students_count }}</td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="2" style="color:#9CA3AF">Hali kurslar yo'q</td></tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Faol qurilmalar -->
-    <div class="dash-section">
-      <h2>📱 Ko'p qurilmali foydalanuvchilar</h2>
-      <table class="dash-table">
-        <thead>
-          <tr><th>Email</th><th>Qurilmalar</th></tr>
-        </thead>
-        <tbody>
-        {% for u in busy_users %}
-          <tr>
-            <td>{{ u.email }}</td>
-            <td>{{ u.dc }}</td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="2" style="color:#9CA3AF">Bo'sh</td></tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
+  <div class="edu-status-grid">{% if total_lessons != None %}<div><span>Darslar</span><strong>{{ total_lessons|intcomma }}</strong></div>{% endif %}{% if total_enrollments != None %}<div><span>Kursga yozilishlar</span><strong>{{ total_enrollments|intcomma }}</strong></div>{% endif %}{% if active_devices != None %}<div><span>24 soatda faol qurilmalar</span><strong>{{ active_devices|intcomma }}</strong></div>{% endif %}{% if can_payments %}<div><span>Kutilayotgan to‘lovlar</span><strong>{{ pending_payments|intcomma }}</strong></div>{% endif %}</div>
+  {% if can_payments %}<section class="edu-panel"><div class="edu-panel-heading"><div><span class="edu-eyebrow">MOLIYAVIY FAOLLIK</span><h2>So‘nggi to‘lovlar</h2></div><a href="{% url 'admin:payments_payment_changelist' %}">Barchasini ko‘rish →</a></div><div class="edu-table-scroll"><table class="edu-table"><thead><tr><th>Foydalanuvchi</th><th>Tarif</th><th>Summa</th><th>Tizim</th><th>Holat</th><th>Sana</th></tr></thead><tbody>{% for p in recent_payments %}<tr><td><a href="{% url 'admin:payments_payment_change' p.pk %}">{{ p.user.email }}</a></td><td>{{ p.tariff.name|default:'—' }}</td><td>{{ p.amount|floatformat:0|intcomma }} so‘m</td><td>{{ p.get_provider_display }}</td><td><span class="edu-badge {{ p.status }}">{{ p.get_status_display }}</span></td><td>{{ p.created_at|date:'d.m.Y H:i' }}</td></tr>{% empty %}<tr><td colspan="6" class="edu-empty">Hozircha to‘lovlar yo‘q. Yangi to‘lovlar shu yerda ko‘rinadi.</td></tr>{% endfor %}</tbody></table></div><p class="edu-muted">Jami tasdiqlangan tushum: {{ revenue_total|floatformat:0|intcomma }} so‘m</p></section>{% endif %}
+  <div class="edu-main-grid">
+    {% if top_courses != None %}<section class="edu-panel"><div class="edu-panel-heading"><div><span class="edu-eyebrow">TA’LIM NATIJALARI</span><h2>Mashhur kurslar</h2></div><a href="{% url 'admin:courses_course_changelist' %}">Barchasi →</a></div>{% for course in top_courses %}<a class="edu-ranked" href="{% url 'admin:courses_course_change' course.pk %}"><span class="edu-rank">0{{ forloop.counter }}</span><div><strong>{{ course.title }}</strong><small>{% if course.is_published %}Nashr etilgan{% else %}Qoralama{% endif %}</small></div><span>{{ course.students_count }} o‘quvchi</span></a>{% empty %}<div class="edu-empty">Birinchi kursingizni yarating va o‘quvchilarni taklif qiling.</div>{% endfor %}</section>{% endif %}
+    {% if can_users %}<section class="edu-panel"><div class="edu-panel-heading"><div><span class="edu-eyebrow">HAMJAMIYAT</span><h2>Yangi foydalanuvchilar</h2></div><a href="{% url 'admin:users_user_changelist' %}">Barchasi →</a></div>{% for member in recent_users %}<a class="edu-ranked" href="{% url 'admin:users_user_change' member.pk %}"><span class="edu-avatar">{{ member.full_name|default:member.email|first|upper }}</span><div><strong>{{ member.full_name|default:member.email }}</strong><small>{{ member.email }}</small></div><span>{{ member.created_at|date:'d.m' }}</span></a>{% empty %}<div class="edu-empty">Hozircha foydalanuvchilar yo‘q.</div>{% endfor %}</section>{% endif %}
   </div>
-
-  <!-- So'nggi to'lovlar -->
-  <div class="dash-section">
-    <h2>💳 So'nggi to'lovlar</h2>
-    <table class="dash-table">
-      <thead>
-        <tr>
-          <th>Foydalanuvchi</th>
-          <th>Tarif</th>
-          <th>Tizim</th>
-          <th>Summa</th>
-          <th>Holat</th>
-          <th>Sana</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for p in recent_payments %}
-        <tr>
-          <td>{{ p.user.email }}</td>
-          <td>{{ p.tariff.name|default:"—" }}</td>
-          <td>{{ p.get_provider_display }}</td>
-          <td>{{ p.amount|floatformat:0|intcomma }} so'm</td>
-          <td><span class="badge {{ p.status }}">{{ p.get_status_display }}</span></td>
-          <td>{{ p.created_at|date:"d.m.Y H:i" }}</td>
-        </tr>
-      {% empty %}
-        <tr><td colspan="6" style="color:#9CA3AF">Hali to'lovlar yo'q</td></tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  <section class="edu-panel"><div class="edu-panel-heading"><div><span class="edu-eyebrow">BARCHA BO‘LIMLAR</span><h2>Boshqaruv vositalari</h2></div><input id="edu-module-search" type="search" placeholder="Bo‘limni qidirish…" aria-label="Boshqaruv bo‘limlarini qidirish"></div><div class="edu-module-grid">{% for app in available_apps %}{% for model in app.models %}<div class="edu-module" data-module-name="{{ app.name }} {{ model.name }}"><div><small>{{ app.name }}</small><a href="{{ model.admin_url|default:model.add_url }}">{{ model.name }}</a></div>{% if model.add_url %}<a href="{{ model.add_url }}" aria-label="{{ model.name }} qo‘shish">＋</a>{% endif %}</div>{% endfor %}{% endfor %}</div></section>
+  <footer class="edu-footer"><span>EduPlatform · Ta’limni birga rivojlantiramiz.</span><span>Saqlash: {% if storage_enabled %}yoqilgan{% else %}sozlanmagan{% endif %} · <a href="{% url 'admin:account' %}">Akkaunt sozlamalari</a></span></footer>
 </div>
+{{ chart_data|json_script:'edu-chart-data' }}
 {% endblock %}

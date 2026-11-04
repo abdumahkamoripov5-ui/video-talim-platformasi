@@ -196,7 +196,11 @@ class PlatformTests(TestCase):
         url=f'/api/videos/attachments/{obj.pk}/'
         self.assertEqual(self.client.get(url).status_code,403)
         self.subscribe()
-        self.assertEqual(self.client.get(url).status_code,200)
+        response = self.client.get(url)
+        try:
+            self.assertEqual(response.status_code,200)
+        finally:
+            response.close()
 
     def test_subscription_activation_is_idempotent(self):
         payment=self.payment()

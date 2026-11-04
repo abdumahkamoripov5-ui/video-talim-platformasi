@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="{% url 'admin:index' %}">Boshqaruv</a> › Akkaunt sozlamalari</div>{% endblock %}
+{% block content %}
+<div class="edu-account-layout">
+  <section class="edu-panel">
+    <div class="edu-panel-heading"><div><span class="edu-eyebrow">SHAXSIY KABINET</span><h2>Login va parolni boshqarish</h2><p>Email manzilingiz admin panelga kirish uchun login hisoblanadi.</p></div><span class="edu-avatar">{{ request.user.full_name|first|upper }}</span></div>
+    <form method="post" class="edu-account-form">{% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+      <div class="edu-field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span aria-label="majburiy">*</span>{% endif %}</label>
+        <div class="edu-input-wrap">{{ field }}{% if 'password' in field.name %}<button class="edu-reveal" type="button" data-password-target="{{ field.id_for_label }}" aria-controls="{{ field.id_for_label }}" aria-pressed="false">Ko‘rsatish</button>{% endif %}</div>
+        {% if field.help_text %}<p class="help">{{ field.help_text }}</p>{% endif %}
+        {{ field.errors }}
+      </div>
+      {% endfor %}
+      <button type="submit" class="edu-button">O‘zgarishlarni saqlash <span>↗</span></button>
+    </form>
+  </section>
+  <aside class="edu-panel edu-account-note"><span class="edu-eyebrow">AKKAUNT XAVFSIZLIGI</span><h2>Hammasi o‘z qo‘lingizda</h2><p>O‘zgarishlarni saqlash uchun joriy parolingizni kiriting. Yangi parol maydonlarini bo‘sh qoldirsangiz, faqat email va ism yangilanadi.</p><p>Parolni yangilaganingizda ushbu brauzerdagi sessiya saqlanadi. Boshqa admin sessiyalarida qayta kirish talab qilinadi.</p><a href="{% url 'admin:password_change' %}">Faqat parolni o‘zgartirish →</a></aside>
+</div>
+{% endblock %}

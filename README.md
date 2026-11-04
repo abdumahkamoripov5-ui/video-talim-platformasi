@@ -34,6 +34,19 @@ Dashboard: http://localhost:8000/admin/dashboard/. API: http://localhost:8000/ap
 Namuna kurslari uchun ixtiyoriy `python manage.py seed_data` buyrug‘i mavjud;
 u haqiqiy videolar yoki admin akkaunt yaratmaydi.
 
+## Admin boshqaruvi
+
+`/admin/` da 7/30/90 kunlik foydalanuvchi va tasdiqlangan tushum grafigi,
+faol obunalar, kurslar, so‘nggi to‘lovlar va tezkor amallar mavjud. Xodimlar
+faqat o‘z model ruxsatlariga tegishli statistikani ko‘radi. Grafik kunlik haqiqiy
+ma’lumotlardan tuziladi; to‘lovlar `paid_at` sanasi bo‘yicha hisoblanadi.
+
+`/admin/account/` orqali admin o‘z login emaili, ismi va parolini yangilaydi.
+Joriy parol majburiy; yangi parol maydonlari bo‘sh qolsa, parol saqlanadi.
+Parol almashtirilganda joriy admin sessiyasi saqlanadi, boshqa admin sessiyalari
+qayta kirishni talab qiladi. O‘zgarish admin jurnaliga yoziladi.
+`/admin/password_change/` dagi standart parol almashtirish ham saqlangan.
+
 ## Asosiy imkoniyatlar
 
 - Kurs katalogi, kategoriya/qidiruv/reyting/saralash va sahifalash.

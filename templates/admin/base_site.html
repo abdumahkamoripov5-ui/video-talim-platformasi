@@ -1,11 +1,30 @@
 {% extends "admin/base.html" %}
+{% load static %}
 
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
 {% block branding %}
-<div id="site-name">
-  <a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a>
-</div>
+<a class="edu-brand" href="{% url 'admin:index' %}"><span class="edu-logo">E</span> Edu<span>Platform</span><small>BOSHQARUV</small></a>
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'admin/edu-admin.css' %}">{% endblock %}
+{% block extrahead %}{{ block.super }}<script src="{% static 'admin/edu-admin.js' %}" defer></script>{% endblock %}
+{% block userlinks %}
+<a href="/" target="_blank" rel="noopener">Saytni ko‘rish ↗</a>
+<a href="{% url 'admin:account' %}">Akkaunt sozlamalari</a>
+<a href="{% url 'admin:password_change' %}">Parolni o‘zgartirish</a>
+<form id="logout-form" method="post" action="{% url 'admin:logout' %}">{% csrf_token %}<button type="submit">Chiqish</button></form>
+{% include "admin/color_theme_toggle.html" %}
+{% endblock %}
+{% block nav-global %}
+{% if user.is_active and user.is_staff %}
+<nav class="edu-nav" aria-label="Boshqaruv navigatsiyasi">
+  <a href="{% url 'admin:index' %}" {% if request.path == '/admin/' or request.path == '/admin/dashboard/' %}aria-current="page"{% endif %}>◫ <span>Umumiy ko‘rinish</span></a>
+  {% if perms.courses.view_course %}<a href="{% url 'admin:courses_course_changelist' %}" {% if '/admin/courses/' in request.path %}aria-current="page"{% endif %}>▤ <span>Kurs va darslar</span></a>{% endif %}
+  {% if perms.users.view_user %}<a href="{% url 'admin:users_user_changelist' %}" {% if request.path == '/admin/users/user/' %}aria-current="page"{% endif %}>♙ <span>Foydalanuvchilar</span></a>{% endif %}
+  {% if perms.payments.view_payment %}<a href="{% url 'admin:payments_payment_changelist' %}" {% if '/admin/payments/' in request.path %}aria-current="page"{% endif %}>▣ <span>To‘lovlar</span></a>{% endif %}
+  <a href="{% url 'media-upload' %}" {% if '/admin/media-upload/' in request.path %}aria-current="page"{% endif %}>↑ <span>Fayl yuklash</span></a>
+  <a href="{% url 'admin:account' %}" {% if '/admin/account/' in request.path %}aria-current="page"{% endif %}>⚙ <span>Akkaunt</span></a>
+</nav>
+{% endif %}
+{% endblock %}
