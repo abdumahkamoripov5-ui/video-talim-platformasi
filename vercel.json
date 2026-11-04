@@ -17,13 +17,15 @@
     {
       "source": "/api/:path*",
       "destination": {
-        "service": "backend"
+        "service": "backend",
+        "path": "/django"
       }
     },
     {
       "source": "/admin/:path*",
       "destination": {
-        "service": "backend"
+        "service": "backend",
+        "path": "/django"
       }
     },
     {
@@ -35,7 +37,8 @@
     {
       "source": "/media/:path*",
       "destination": {
-        "service": "backend"
+        "service": "backend",
+        "path": "/django"
       }
     },
     {
