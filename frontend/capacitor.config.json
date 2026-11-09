@@ -1,5 +1,8 @@
 {
   "appId": "uz.videotalim.platform",
   "appName": "Video Ta'lim",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
 }
