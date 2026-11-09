@@ -11,6 +11,10 @@
     "configure:vercel": "node scripts/configure-vercel.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/cli": "^8.6.0",
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/ios": "^8.6.0",
     "@tanstack/react-query": "^5.100.10",
     "axios": "^1.16.0",
     "hls.js": "^1.6.16",
