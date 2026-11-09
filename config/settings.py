@@ -8,7 +8,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production')
 IS_VERCEL = os.environ.get('VERCEL') == '1'
 DEBUG = config('DEBUG', default=not IS_VERCEL, cast=bool)
-ADMIN_REQUIRE_LOGIN = config('ADMIN_REQUIRE_LOGIN', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
 INSTALLED_APPS = [
@@ -43,7 +42,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'config.middleware.TemporaryAdminAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
