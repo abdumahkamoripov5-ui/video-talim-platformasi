@@ -3,6 +3,8 @@
   "appName": "Video Ta'lim",
   "webDir": "dist",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "url": "https://video-talim-platformasi.vercel.app",
+    "cleartext": false
   }
 }

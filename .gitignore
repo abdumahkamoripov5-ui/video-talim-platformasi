@@ -29,3 +29,15 @@ node_modules/
 # Android local files
 local.properties
 /build/
+
+# Local IDE, Gradle and build caches
+.idea/
+.gradle/
+.kotlin/
+
+# Desktop build output and dependencies
+desktop/node_modules/
+desktop/dist/
+
+# Separate scratch Android project with crash logs
+/kids-learning-android/
