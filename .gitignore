@@ -21,3 +21,7 @@ playwright-report/
 !*.env.example
 
 /templates/spa.html
+node_modules/
+.neon
+/.admin-deploy/
+/.admin-preview/
