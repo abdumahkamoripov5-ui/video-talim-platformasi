@@ -25,3 +25,7 @@ node_modules/
 .neon
 /.admin-deploy/
 /.admin-preview/
+
+# Android local files
+local.properties
+/build/
