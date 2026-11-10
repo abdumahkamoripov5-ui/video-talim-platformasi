@@ -16,10 +16,26 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            def signingFile = file("${System.getProperty('user.home')}/.videotalim-keys/signing.properties")
+            if (signingFile.exists()) {
+                def props = new Properties()
+                signingFile.withInputStream { props.load(it) }
+                storeFile file(props.getProperty('storeFile'))
+                storePassword props.getProperty('storePassword')
+                keyAlias props.getProperty('keyAlias')
+                keyPassword props.getProperty('keyPassword')
+            }
+        }
+    }
     buildTypes {
         release {
+            if (file("${System.getProperty('user.home')}/.videotalim-keys/signing.properties").exists()) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

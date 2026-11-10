@@ -2,9 +2,31 @@
   "appId": "uz.videotalim.platform",
   "appName": "Video Ta'lim",
   "webDir": "dist",
+  "backgroundColor": "#1e1b4b",
   "server": {
     "androidScheme": "https",
     "url": "https://video-talim-platformasi.vercel.app",
     "cleartext": false
+  },
+  "android": {
+    "backgroundColor": "#0f172a",
+    "allowMixedContent": false
+  },
+  "ios": {
+    "backgroundColor": "#0f172a",
+    "contentInset": "automatic",
+    "scheme": "Video Ta'lim"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "launchAutoHide": true,
+      "backgroundColor": "#1e1b4b",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "splashFullScreen": true,
+      "splashImmersive": true
+    }
   }
 }

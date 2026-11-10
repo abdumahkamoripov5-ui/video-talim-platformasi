@@ -1,0 +1,47 @@
+name: iOS build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/ios-build.yml'
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install web dependencies
+        run: npm ci
+
+      - name: Build web app and sync iOS project
+        run: |
+          npm run build
+          npx cap sync ios
+
+      - name: Install CocoaPods dependencies
+        working-directory: frontend/ios/App
+        run: pod install
+
+      - name: Build for iOS Simulator (unsigned)
+        working-directory: frontend/ios/App
+        run: |
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
