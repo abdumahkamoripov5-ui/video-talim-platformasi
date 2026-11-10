@@ -77,6 +77,18 @@
 
   .footer { display: none; }
 
+  /* Form inputs: keep typed text visible on focus (dark surface, light text) */
+  .form-group input,
+  .form-group input:focus,
+  .form-group textarea,
+  .form-group textarea:focus {
+    background: rgba(255, 255, 255, .06);
+    color: var(--text);
+    border-color: rgba(255, 255, 255, .14);
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-light); }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); }
+
   /* Readable text on dark surfaces */
   .btn-primary, .btn-primary-sm {
     color: #fff;
