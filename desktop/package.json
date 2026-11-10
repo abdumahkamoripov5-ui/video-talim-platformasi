@@ -1,0 +1,22 @@
+{
+  "name": "video-talim-desktop",
+  "productName": "Video Ta'lim",
+  "version": "1.0.0",
+  "description": "Video Ta'lim platformasi uchun ish stoli ilovasi",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "uz.videotalim.desktop",
+    "productName": "Video Ta'lim",
+    "directories": { "output": "dist" },
+    "win": { "target": ["portable"] }
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}
