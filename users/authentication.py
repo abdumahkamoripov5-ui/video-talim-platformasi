@@ -16,7 +16,7 @@ def attach_device(user, data, request):
         User.objects.select_for_update().get(pk=user.pk)
         device = user.devices.filter(device_id=device_id).first()
         if not device and user.devices.count() >= settings.MAX_DEVICES:
-            raise PermissionDenied('Qurilmalar soni oshib ketdi. Maksimum 2 ta qurilma ruxsat etiladi.')
+            raise PermissionDenied(f'Qurilmalar soni oshib ketdi. Maksimum {settings.MAX_DEVICES} ta qurilma ruxsat etiladi.')
         device, _ = UserDevice.objects.update_or_create(user=user, device_id=device_id, defaults={
             'device_name': str(data.get('device_name', 'Veb brauzer'))[:255],
             'user_agent': request.META.get('HTTP_USER_AGENT', '')[:1000],

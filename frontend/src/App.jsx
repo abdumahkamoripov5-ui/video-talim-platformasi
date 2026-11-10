@@ -3,6 +3,7 @@ import { useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AppBackdrop from './components/AppBackdrop';
+import MobileTabBar from './components/MobileTabBar';
 import HomePage from './pages/HomePage';
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -16,6 +17,7 @@ import useAuthStore from './store/authStore';
 import './App.css';
 import './academy.css';
 import './backdrop.css';
+import './mobile.css';
 const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage'));
 
 function App() {
@@ -48,6 +50,7 @@ function App() {
         </Routes></Suspense>
       </main>
       <Footer />
+      <MobileTabBar />
     </BrowserRouter>
   );
 }

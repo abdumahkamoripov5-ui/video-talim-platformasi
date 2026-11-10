@@ -63,11 +63,10 @@ class PlatformTests(TestCase):
         self.login(); self.subscribe()
         self.assertEqual(self.client.get(f'/api/courses/lessons/{self.lesson.pk}/').status_code, 404)
 
-    def test_third_device_login_is_rejected(self):
+    def test_second_device_login_is_rejected(self):
         self.assertEqual(self.login('device-0001').status_code, 200)
-        self.assertEqual(self.login('device-0002').status_code, 200)
-        self.assertEqual(self.login('device-0003').status_code, 403)
-        self.assertEqual(self.user.devices.count(), 2)
+        self.assertEqual(self.login('device-0002').status_code, 403)
+        self.assertEqual(self.user.devices.count(), 1)
 
     def test_same_device_relogin_allowed(self):
         self.login(); self.assertEqual(self.login().status_code, 200)

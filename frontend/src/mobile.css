@@ -1,0 +1,92 @@
+/* Mobile app look: dark glass surfaces and a bottom tab bar (screens up to 768px). */
+.mobile-tabbar { display: none; }
+
+@media (max-width: 768px) {
+  :root {
+    --bg: #0B1020;
+    --bg-light: #141B2D;
+    --card-bg: rgba(255, 255, 255, .06);
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-light: #64748B;
+    --border: rgba(255, 255, 255, .1);
+    --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, .45);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 96px;
+  }
+
+  .navbar {
+    background: rgba(11, 16, 32, .8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom-color: rgba(255, 255, 255, .08);
+  }
+
+  .course-card, .lesson-row, .feature-card, .tariff-card, .profile-section,
+  .auth-card, .payment-card, .attachments, .lesson-description, .course-header {
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .1);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 20px;
+  }
+
+  .mobile-tabbar {
+    display: flex;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 50;
+    height: 68px;
+    padding: 6px;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(20, 27, 45, .85);
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 0;
+    border-radius: 16px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    transition: color .2s ease, background .2s ease;
+  }
+  .tab-item svg { width: 22px; height: 22px; fill: currentColor; }
+  .tab-item.active {
+    color: #fff;
+    background: var(--gradient-primary);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, .35);
+  }
+
+  .footer { display: none; }
+
+  /* Readable text on dark surfaces */
+  .btn-primary, .btn-primary-sm {
+    color: #fff;
+    background: var(--gradient-primary);
+    border-color: transparent;
+  }
+  .btn-primary::before { display: none; }
+  .hero-copy h1 > span { color: #A7E36B; }
+  .hero-copy h1 > span::after { border-top-color: rgba(167, 227, 107, .5); }
+
+  /* No accidental horizontal scroll on phones */
+  html, body { overflow-x: hidden; }
+}

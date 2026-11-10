@@ -133,7 +133,7 @@ CELERY_RESULT_BACKEND = REDIS_URL
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
-MAX_DEVICES = config('MAX_DEVICES', default=2, cast=int)
+MAX_DEVICES = config('MAX_DEVICES', default=1, cast=int)
 SIGNED_URL_EXPIRY = config('SIGNED_URL_EXPIRY', default=1800, cast=int)
 
 SPECTACULAR_SETTINGS = {
