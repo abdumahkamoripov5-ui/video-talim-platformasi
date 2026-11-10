@@ -153,6 +153,8 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@eduplatform.u
 
 # Telegram
 TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='')
+TELEGRAM_WEBHOOK_SECRET = config('TELEGRAM_WEBHOOK_SECRET', default='')
+TELEGRAM_WEBAPP_URL = config('TELEGRAM_WEBAPP_URL', default='https://video-talim-platformasi.vercel.app')
 
 # Deployment configuration. Keep frontend and API on the same origin for native HLS cookies.
 FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:5173').rstrip('/')

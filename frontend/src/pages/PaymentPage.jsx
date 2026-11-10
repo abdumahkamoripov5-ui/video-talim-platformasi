@@ -51,6 +51,7 @@ export default function PaymentPage() {
       <div className="container">
         <div className="payment-card">
           <h1>To'lov</h1>
+          <p className="notice" role="status">To'lov tizimi texnik jarayonda. Tez orada ishga tushiriladi.</p>
 
           <div className="tariff-summary">
             <h3>{tariff.name}</h3>
