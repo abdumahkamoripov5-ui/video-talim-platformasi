@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from 'react
 import { useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import AppBackdrop from './components/AppBackdrop';
 import HomePage from './pages/HomePage';
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -14,6 +15,7 @@ const WishlistPage = lazy(() => import('./pages/WishlistPage'));
 import useAuthStore from './store/authStore';
 import './App.css';
 import './academy.css';
+import './backdrop.css';
 const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage'));
 
 function App() {
@@ -25,6 +27,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <AppBackdrop />
       <ScrollManager />
       <a className="skip-link" href="#main-content">Asosiy kontentga o‘tish</a>
       <Navbar />

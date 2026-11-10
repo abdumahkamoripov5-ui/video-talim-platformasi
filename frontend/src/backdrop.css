@@ -1,0 +1,49 @@
+/* Education/video backdrop: sits behind all page content, never intercepts input. */
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.backdrop-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .5;
+}
+.backdrop-blob--a {
+  width: 42vmax; height: 42vmax; left: -12vmax; top: -10vmax;
+  background: radial-gradient(circle, #6366F1 0%, transparent 70%);
+}
+.backdrop-blob--b {
+  width: 38vmax; height: 38vmax; right: -10vmax; top: 30%;
+  background: radial-gradient(circle, #EC4899 0%, transparent 70%);
+  opacity: .4;
+}
+.backdrop-blob--c {
+  width: 36vmax; height: 36vmax; left: 20%; bottom: -14vmax;
+  background: radial-gradient(circle, #06B6D4 0%, transparent 70%);
+  opacity: .45;
+}
+
+.backdrop-icon {
+  position: absolute;
+  width: 96px; height: 96px;
+  fill: var(--primary);
+  opacity: .18;
+}
+.bi-play  { right: 8%;  top: 14%; width: 120px; height: 120px; transform: rotate(-12deg); }
+.bi-book  { left: 4%;   top: 46%; transform: rotate(8deg); }
+.bi-cap   { right: 12%; top: 66%; width: 110px; height: 110px; fill: var(--secondary); transform: rotate(-6deg); }
+.bi-chart { left: 14%;  bottom: 8%; width: 130px; height: 130px; fill: var(--accent); transform: rotate(4deg); }
+
+[data-theme='dark'] .backdrop-blob { opacity: .22; }
+[data-theme='dark'] .backdrop-icon { opacity: .14; }
+
+@media (max-width: 640px) {
+  .backdrop-icon { width: 56px; height: 56px; }
+  .bi-play, .bi-cap, .bi-chart { width: 64px; height: 64px; }
+  .bi-book { left: auto; right: 4%; }
+}
