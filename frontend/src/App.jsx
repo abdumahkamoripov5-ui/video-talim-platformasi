@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AppBackdrop from './components/AppBackdrop';
 import MobileTabBar from './components/MobileTabBar';
+import AnnouncementBanner from './components/AnnouncementBanner';
 import HomePage from './pages/HomePage';
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -33,6 +34,7 @@ function App() {
       <ScrollManager />
       <a className="skip-link" href="#main-content">Asosiy kontentga o‘tish</a>
       <Navbar />
+      <AnnouncementBanner />
       <main id="main-content">
         <Suspense fallback={<div className="loading">Sahifa yuklanmoqda…</div>}><Routes>
           <Route path="/" element={<HomePage />} />

@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 
 TYPES = {
     'video': {'.mp4': 'video/mp4'},
+    'audio': {'.mp3': 'audio/mpeg', '.m4a': 'audio/mp4', '.wav': 'audio/wav'},
     'thumbnail': {'.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp'},
     'attachment': {
         '.pdf': 'application/pdf', '.doc': 'application/msword',
@@ -48,7 +49,7 @@ class UploadRequest(serializers.Serializer):
         ext = PurePath(name).suffix.lower()
         if ext not in TYPES[data['kind']]:
             raise serializers.ValidationError('Bu fayl formati qo‘llab-quvvatlanmaydi')
-        maximum = {'video': settings.DIRECT_VIDEO_MAX_BYTES,
+        maximum = {'video': settings.DIRECT_VIDEO_MAX_BYTES, 'audio': settings.DIRECT_VIDEO_MAX_BYTES,
                    'attachment': settings.DIRECT_ATTACHMENT_MAX_BYTES, 'thumbnail': 2 * 1024**2}[data['kind']]
         if data['size'] > maximum:
             raise serializers.ValidationError('Fayl hajmi ruxsat etilgan chegaradan katta')
@@ -58,7 +59,7 @@ class UploadRequest(serializers.Serializer):
 
 def target_for(user, kind, target_id):
     permission = {'thumbnail': 'courses.change_course', 'attachment': 'courses.add_lessonattachment',
-                  'video': 'videos.change_video'}[kind]
+                  'video': 'videos.change_video', 'audio': 'videos.change_video'}[kind]
     if not user.has_perm(permission):
         raise PermissionDenied
     return get_object_or_404(Course if kind == 'thumbnail' else Lesson, pk=target_id)
@@ -177,7 +178,7 @@ def complete(request, upload_id):
         except (BotoCoreError, ClientError):
             logger.warning('Storage upload finalization failed')
             return JsonResponse({'detail': 'Fayl tekshirilmadi. Saqlash sozlamalari va yuklashni tekshiring.'}, status=503)
-        if upload.kind == 'video':
+        if upload.kind in ('video', 'audio'):
             video, _ = Video.objects.update_or_create(lesson=target, defaults={
                 'original_file': upload.final_key, 'playback_format': 'mp4', 'hls_path': '',
                 'status': 'ready', 'error_message': '', 'duration_seconds': upload.duration_seconds,

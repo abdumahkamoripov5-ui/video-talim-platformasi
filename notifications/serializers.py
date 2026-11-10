@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Notification, TelegramSubscriber
+from .models import Announcement, Notification, TelegramSubscriber
 
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -17,3 +17,9 @@ class TelegramSubscriberSerializer(serializers.ModelSerializer):
         model = TelegramSubscriber
         fields = ('id', 'chat_id', 'username', 'is_active', 'created_at')
         read_only_fields = ('created_at',)
+
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Announcement
+        fields = ('id', 'title', 'body', 'link', 'published_at')

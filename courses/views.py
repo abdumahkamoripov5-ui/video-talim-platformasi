@@ -179,10 +179,12 @@ def get_video_url(request, lesson_id):
         video_url = signed_download(lesson.video.original_file.name)
 
     progress = user.progresses.filter(lesson=lesson).first()
+    is_audio = bool(lesson.video.original_file) and lesson.video.original_file.name.lower().endswith(('.mp3', '.m4a', '.wav'))
 
     response = Response({
         'url': video_url,
         'format': playback_format,
+        'media': 'audio' if is_audio else 'video',
         'resume_at': progress.watched_seconds if progress else 0,
         'watermark_id': user.display_id,
         'token': token,

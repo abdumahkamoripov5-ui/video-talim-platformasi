@@ -47,3 +47,18 @@
   .bi-play, .bi-cap, .bi-chart { width: 64px; height: 64px; }
   .bi-book { left: auto; right: 4%; }
 }
+
+/* Audio lessons */
+.player-audio { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #0f172a 100%); border-radius: 14px; }
+.audio-stage { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 28px 22px; }
+.audio-stage img { width: min(260px, 70%); aspect-ratio: 1; object-fit: cover; border-radius: 18px; box-shadow: 0 18px 40px rgba(0,0,0,.35); }
+.audio-stage audio { width: 100%; max-width: 560px; }
+
+/* Admin announcements */
+.announcement-banner { position: relative; z-index: 40; display: flex; align-items: flex-start; gap: 12px; margin: 12px auto 0; max-width: 1240px; padding: 14px 16px; border-radius: 14px; background: var(--gradient-primary); color: #fff; box-shadow: 0 10px 30px rgba(99, 102, 241, .25); }
+.announcement-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+@media (max-width: 800px) { .announcement-banner { margin: 12px 16px 0; width: auto; max-width: none; } }
+.announcement-text strong { font-size: 14px; }
+.announcement-text a { color: #fff; font-weight: 700; text-decoration: underline; width: max-content; }
+.announcement-actions { display: flex; align-items: center; gap: 16px; margin-top: 4px; }
+.announcement-close { border: 0; background: rgba(255,255,255,.22); color: #fff; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; cursor: pointer; }

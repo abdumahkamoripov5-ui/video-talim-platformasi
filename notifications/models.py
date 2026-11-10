@@ -42,3 +42,18 @@ class TelegramSubscriber(models.Model):
 
     def __str__(self):
         return f"{self.user.email} → @{self.username or self.chat_id}"
+
+
+class Announcement(models.Model):
+    """Admin tomonidan barcha foydalanuvchilarga ilovada ko'rsatiladigan e'lon."""
+    title = models.CharField(max_length=200)
+    body = models.TextField(max_length=1000)
+    link = models.CharField(max_length=300, blank=True, help_text="Ixtiyoriy: /courses kabi ichki yo'l")
+    is_published = models.BooleanField(default=True)
+    published_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-published_at']
+
+    def __str__(self):
+        return self.title

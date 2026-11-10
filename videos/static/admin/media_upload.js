@@ -10,7 +10,7 @@
   kind.addEventListener('change', () => {
     document.getElementById('course-row').hidden = kind.value !== 'thumbnail';
     document.getElementById('lesson-row').hidden = kind.value === 'thumbnail';
-    fileInput.accept = {video: '.mp4', thumbnail: '.jpg,.jpeg,.png,.webp', attachment: '.pdf,.doc,.docx,.txt,.zip'}[kind.value];
+    fileInput.accept = {video: '.mp4', audio: '.mp3,.m4a,.wav', thumbnail: '.jpg,.jpeg,.png,.webp', attachment: '.pdf,.doc,.docx,.txt,.zip'}[kind.value];
     fileInput.value = '';
   });
   window.addEventListener('beforeunload', event => { if (busy) { event.preventDefault(); event.returnValue = ''; } });

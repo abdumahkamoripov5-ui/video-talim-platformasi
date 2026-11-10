@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .models import Notification, TelegramSubscriber
-from .serializers import NotificationSerializer, TelegramSubscriberSerializer
+from .models import Announcement, Notification, TelegramSubscriber
+from .serializers import AnnouncementSerializer, NotificationSerializer, TelegramSubscriberSerializer
 
 
 class NotificationListView(generics.ListAPIView):
@@ -48,3 +48,13 @@ def link_telegram(request):
         defaults={'chat_id': chat_id, 'username': username, 'is_active': True},
     )
     return Response(TelegramSubscriberSerializer(sub).data)
+
+
+class AnnouncementListView(generics.ListAPIView):
+    """Faol e'lonlar (ochiq, login talab qilinmaydi)."""
+    serializer_class = AnnouncementSerializer
+    permission_classes = [permissions.AllowAny]
+    pagination_class = None
+
+    def get_queryset(self):
+        return Announcement.objects.filter(is_published=True)[:5]
