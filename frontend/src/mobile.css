@@ -94,6 +94,19 @@
     background: #141B2D;
   }
 
+  /* Language picker and dropdowns: readable options with a dark native popup */
+  select { color-scheme: dark; }
+  select:not(.language-select) {
+    background-color: #141B2D;
+    color: #F8FAFC;
+    border: 1px solid rgba(255, 255, 255, .14);
+  }
+  .language-select { color: #F8FAFC; background: transparent; }
+  select option, .language-select option { background-color: #141B2D; color: #F8FAFC; }
+
+  /* Clearer placeholders on dark surfaces */
+  .form-group input::placeholder, .form-group textarea::placeholder { color: #8B9AB5; opacity: 1; }
+
   /* Form inputs: keep typed text visible on focus (dark surface, light text) */
   .form-group input,
   .form-group input:focus,
