@@ -25,6 +25,7 @@
   {% if perms.payments.view_payment %}<a href="{% url 'admin:payments_payment_changelist' %}" {% if '/admin/payments/' in request.path %}aria-current="page"{% endif %}>▣ <span>To‘lovlar</span></a>{% endif %}
   <a href="{% url 'media-upload' %}" {% if '/admin/media-upload/' in request.path %}aria-current="page"{% endif %}>↑ <span>Fayl yuklash</span></a>
   <a href="{% url 'admin:account' %}" {% if '/admin/account/' in request.path %}aria-current="page"{% endif %}>⚙ <span>Akkaunt</span></a>
+  <a href="/" target="_blank" rel="noopener">▶ <span>Ilovani ochish</span></a>
 </nav>
 {% endif %}
 {% endblock %}
