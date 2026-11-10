@@ -134,7 +134,7 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 MAX_DEVICES = config('MAX_DEVICES', default=1, cast=int)
-SIGNED_URL_EXPIRY = config('SIGNED_URL_EXPIRY', default=1800, cast=int)
+SIGNED_URL_EXPIRY = config('SIGNED_URL_EXPIRY', default=600, cast=int)  # 10 daqiqa: kamroq tarqalish xavfi
 
 SPECTACULAR_SETTINGS = {
     'TITLE': "Video Ta'lim Platformasi API",

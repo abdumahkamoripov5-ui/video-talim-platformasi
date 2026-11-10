@@ -35,22 +35,6 @@ def mark_all_read(request):
     return Response({'detail': "Hammasi o'qilgan"})
 
 
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def link_telegram(request):
-    chat_id = request.data.get('chat_id')
-    username = request.data.get('username', '')
-
-    if not chat_id:
-        return Response({'detail': 'chat_id majburiy'}, status=status.HTTP_400_BAD_REQUEST)
-
-    sub, _ = TelegramSubscriber.objects.update_or_create(
-        user=request.user,
-        defaults={'chat_id': chat_id, 'username': username, 'is_active': True},
-    )
-    return Response(TelegramSubscriberSerializer(sub).data)
-
-
 class AnnouncementListView(generics.ListAPIView):
     """Faol e'lonlar (ochiq, login talab qilinmaydi)."""
     serializer_class = AnnouncementSerializer
