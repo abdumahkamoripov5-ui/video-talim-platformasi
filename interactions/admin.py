@@ -5,12 +5,18 @@ from .models import Wishlist, Review, LessonComment, Question, Answer, Certifica
 
 @admin.register(Wishlist)
 class WishlistAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'course', 'created_at')
     search_fields = ('user__email', 'course__title')
 
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'course', 'rating_stars', 'short_comment', 'is_published', 'created_at')
     list_filter = ('rating', 'is_published')
     list_editable = ('is_published',)
@@ -27,6 +33,9 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(LessonComment)
 class LessonCommentAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'lesson', 'short_content', 'is_published', 'created_at')
     list_filter = ('is_published',)
     list_editable = ('is_published',)
@@ -45,6 +54,9 @@ class AnswerInline(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'title', 'lesson', 'course', 'status_badge', 'answers_count', 'created_at')
     list_filter = ('status', 'created_at')
     search_fields = ('title', 'content', 'user__email')
@@ -78,6 +90,9 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('author', 'question', 'short_content', 'is_admin_answer', 'created_at')
     list_filter = ('is_admin_answer', 'created_at')
     search_fields = ('author__email', 'content', 'question__title')
@@ -88,6 +103,9 @@ class AnswerAdmin(admin.ModelAdmin):
 
 @admin.register(Certificate)
 class CertificateAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('certificate_number', 'user', 'course', 'issued_at')
     search_fields = ('certificate_number', 'user__email', 'course__title')
     readonly_fields = ('certificate_number', 'issued_at')

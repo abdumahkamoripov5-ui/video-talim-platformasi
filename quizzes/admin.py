@@ -10,6 +10,9 @@ class ChoiceInline(admin.TabularInline):
 
 @admin.register(QuizQuestion)
 class QuizQuestionAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('quiz', 'short_text', 'order')
     list_filter = ('quiz',)
     inlines = [ChoiceInline]
@@ -27,6 +30,9 @@ class QuestionInline(admin.TabularInline):
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('title', 'lesson', 'pass_percentage', 'is_active', 'questions_count')
     list_filter = ('is_active',)
     inlines = [QuestionInline]
@@ -38,6 +44,9 @@ class QuizAdmin(admin.ModelAdmin):
 
 @admin.register(QuizAttempt)
 class QuizAttemptAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'quiz', 'score', 'total', 'percentage', 'is_passed', 'created_at')
     list_filter = ('is_passed',)
     search_fields = ('user__email', 'quiz__title')

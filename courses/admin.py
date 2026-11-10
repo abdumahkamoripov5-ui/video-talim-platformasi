@@ -87,6 +87,9 @@ class LessonAdmin(admin.ModelAdmin):
 
 @admin.register(Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'course', 'progress_percent', 'enrolled_at')
     search_fields = ('user__email', 'course__title')
 

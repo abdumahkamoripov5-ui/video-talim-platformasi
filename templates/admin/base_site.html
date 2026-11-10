@@ -23,6 +23,7 @@
   {% if perms.courses.view_course %}<a href="{% url 'admin:courses_course_changelist' %}" {% if '/admin/courses/' in request.path %}aria-current="page"{% endif %}>▤ <span>Kurs va darslar</span></a>{% endif %}
   {% if perms.users.view_user %}<a href="{% url 'admin:users_user_changelist' %}" {% if request.path == '/admin/users/user/' %}aria-current="page"{% endif %}>♙ <span>Foydalanuvchilar</span></a>{% endif %}
   {% if perms.payments.view_payment %}<a href="{% url 'admin:payments_payment_changelist' %}" {% if '/admin/payments/' in request.path %}aria-current="page"{% endif %}>▣ <span>To‘lovlar</span></a>{% endif %}
+  {% if perms.notifications.view_announcement %}<a href="{% url 'admin:notifications_announcement_changelist' %}" {% if '/admin/notifications/' in request.path %}aria-current="page"{% endif %}>✉ <span>E‘lonlar</span></a>{% endif %}
   <a href="{% url 'media-upload' %}" {% if '/admin/media-upload/' in request.path %}aria-current="page"{% endif %}>↑ <span>Fayl yuklash</span></a>
   <a href="{% url 'admin:account' %}" {% if '/admin/account/' in request.path %}aria-current="page"{% endif %}>⚙ <span>Akkaunt</span></a>
   <a href="/" target="_blank" rel="noopener">▶ <span>Ilovani ochish</span></a>

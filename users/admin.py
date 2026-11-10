@@ -35,6 +35,9 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(UserDevice)
 class UserDeviceAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'device_name', 'ip_address', 'last_seen', 'created_at')
     list_filter = ('created_at',)
     search_fields = ('user__email', 'device_id', 'ip_address')
@@ -50,6 +53,28 @@ class UserDeviceAdmin(admin.ModelAdmin):
 
 @admin.register(VideoProgress)
 class VideoProgressAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'lesson', 'watched_seconds', 'is_completed', 'updated_at')
     list_filter = ('is_completed',)
     search_fields = ('user__email', 'lesson__title')
+
+
+# Texnik jadvallarni admin menyusidan olib tashlash (ma'lumotlarga ta'sir qilmaydi).
+from django.contrib.auth.models import Group
+from django.contrib.admin.sites import NotRegistered
+for _model in (Group,):
+    try:
+        admin.site.unregister(_model)
+    except NotRegistered:
+        pass
+try:
+    from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+    for _model in (BlacklistedToken, OutstandingToken):
+        try:
+            admin.site.unregister(_model)
+        except NotRegistered:
+            pass
+except ImportError:
+    pass

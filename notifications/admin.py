@@ -4,6 +4,9 @@ from .models import Announcement, Notification, TelegramSubscriber
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'type', 'title', 'is_read', 'created_at')
     list_filter = ('type', 'is_read')
     search_fields = ('user__email', 'title', 'message')
@@ -11,6 +14,9 @@ class NotificationAdmin(admin.ModelAdmin):
 
 @admin.register(TelegramSubscriber)
 class TelegramSubscriberAdmin(admin.ModelAdmin):
+    # Admin menyusida yashirilgan (ma'lumot saqlanadi, URL orqali ochiladi)
+    def get_model_perms(self, request):
+        return {}
     list_display = ('user', 'username', 'chat_id', 'is_active', 'created_at')
     list_filter = ('is_active',)
     search_fields = ('user__email', 'username', 'chat_id')
