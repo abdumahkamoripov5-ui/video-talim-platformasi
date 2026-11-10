@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate, Link } from 'react-router-dom';
 import { useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -31,6 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <AppBackdrop />
+      <TelegramGate />
       <ScrollManager />
       <a className="skip-link" href="#main-content">Asosiy kontentga o‘tish</a>
       <Navbar />
@@ -55,6 +56,19 @@ function App() {
       <MobileTabBar />
     </BrowserRouter>
   );
+}
+
+// Inside Telegram, the app is only for registered users: others go to registration.
+function TelegramGate() {
+  const { isAuthenticated } = useAuthStore();
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const inTelegram = Boolean(window.Telegram?.WebApp?.initData);
+    const open = ['/login', '/register'].includes(location.pathname);
+    if (inTelegram && !isAuthenticated && !open) navigate('/register', { replace: true });
+  }, [isAuthenticated, location.pathname, navigate]);
+  return null;
 }
 
 function Protected({ children }) {
