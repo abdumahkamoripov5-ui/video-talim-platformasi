@@ -31,14 +31,10 @@ jobs:
           npm run build
           npx cap sync ios
 
-      - name: Install CocoaPods dependencies
-        working-directory: frontend/ios/App
-        run: pod install
-
       - name: Build for iOS Simulator (unsigned)
         working-directory: frontend/ios/App
         run: |
-          xcodebuild -workspace App.xcworkspace \
+          xcodebuild -project App.xcodeproj \
             -scheme App \
             -configuration Debug \
             -sdk iphonesimulator \
