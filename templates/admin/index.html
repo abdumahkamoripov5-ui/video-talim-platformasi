@@ -1,5 +1,14 @@
 {% extends "admin/index.html" %}
 {% block content %}
-<div class="module"><h2>Kontent yuklash</h2><p><a href="{% url 'media-upload' %}">Video, dars materiali yoki kurs rasmini yuklash</a></p></div>
-{{ block.super }}
+<div id="content-main">
+  <div class="module"><h2>Tezkor amallar</h2>
+    <ul class="edu-quick-links" style="list-style:none;margin:0;padding:8px 16px">
+      <li style="padding:8px 0"><a href="{% url 'admin:courses_course_add' %}">Yangi kurs qo‘shish</a></li>
+      <li style="padding:8px 0"><a href="{% url 'admin:courses_lesson_add' %}">Yangi dars qo‘shish</a></li>
+      <li style="padding:8px 0"><a href="{% url 'admin:users_user_add' %}">Yangi foydalanuvchi qo‘shish</a></li>
+      <li style="padding:8px 0"><a href="{% url 'admin:payments_tariff_add' %}">Yangi tarif qo‘shish</a></li>
+      <li style="padding:8px 0"><a href="{% url 'media-upload' %}">Video, dars materiali yoki kurs rasmini yuklash</a></li>
+    </ul>
+  </div>
+</div>
 {% endblock %}

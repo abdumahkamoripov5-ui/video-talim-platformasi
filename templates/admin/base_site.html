@@ -9,6 +9,7 @@
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'admin/edu-admin.css' %}">{% endblock %}
 {% block extrahead %}{{ block.super }}<script src="{% static 'admin/edu-admin.js' %}" defer></script>{% endblock %}
+{% block nav-sidebar %}{% endblock %}
 {% block userlinks %}
 <a href="/" target="_blank" rel="noopener">Saytni ko‘rish ↗</a>
 <a href="{% url 'admin:account' %}">Akkaunt sozlamalari</a>

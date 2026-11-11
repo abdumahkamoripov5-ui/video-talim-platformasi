@@ -1,11 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.forms import AdminUserCreationForm
 from django.utils.html import format_html
 from .models import User, UserDevice, VideoProgress
 
 
+class UserAddForm(AdminUserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = "Kamida 8 ta belgi. Oson topiladigan parol ishlatmang."
+
+
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
+    add_form = UserAddForm
+    add_form_template = 'admin/users/user/add_form.html'
     list_display = ('email', 'full_name', 'phone', 'subscription_status', 'subscription_end', 'is_active', 'created_at')
     list_filter = ('is_active', 'is_staff', 'is_superuser')
     search_fields = ('email', 'full_name', 'phone')
